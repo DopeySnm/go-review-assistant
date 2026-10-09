@@ -1,0 +1,13 @@
+[tool.poetry]
+name = "hw01"
+version = "0.1.0"
+description = "ДЗ 01: чат и ассистент для проверки Go-кода по код-стайлу"
+authors = ["artur <fahartur09@gmail.com>"]
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.11"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

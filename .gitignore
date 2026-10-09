@@ -1,0 +1,5 @@
+__pycache__/
+.venv/
+.openrouter_key
+models/
+.idea/
