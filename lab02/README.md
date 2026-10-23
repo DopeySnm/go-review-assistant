@@ -34,7 +34,7 @@ jupyter lab lab02.ipynb                                       # интеракт
 python run_demo.py lab02.ipynb                                # выполнить целиком с настоящим перезапуском ядра
 ```
 
-Вывод в ноутбуке получен на Kaggle T4 (llama-server + Qwen2.5-3B, `-ngl 99`) тем же `run_demo.py`.
+Вывод в ноутбуке получен на GPU Tesla T4 (llama-server + Qwen2.5-3B, `-ngl 99`) тем же `run_demo.py`.
 
 `run_demo.py` выполняет ячейки до «Перезапуск ядра» в одном ядре, остальные — в новом: в выводе другой pid
 и нумерация ячеек с 1.

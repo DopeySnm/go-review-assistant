@@ -2,17 +2,11 @@
 
 > Задание 02 (чат-агент на LangChain с памятью фактов) — в папке [`lab02/`](lab02/README.md).
 
-**Тема проекта:** проверка Go-кода по код-стайлу команды.
-Ассистент получает правила (`get_style_guide`), код (`get_code(file)`) и отчёт линтера (`get_linter_report`) и находит нарушения.
-
-Машина: Intel Core i5-3570K (4 ядра, без AVX2), 16 ГБ RAM, NixOS. llama.cpp b6981 из nixpkgs (`nix-shell` → `llama-server`, `llama-bench`).
-Прогоны агента — на Kaggle (Tesla T4), та же версия llama.cpp, собранная с CUDA (`kaggle/`).
-
 ## Развёртывание LLM
 
 1. **maple-preview на CPU** — файл модели не получен, замер сделан на моделях из домашнего задания (п. 1 ниже).
 
-2. **GPU** — локальной видеокарты нет. На Kaggle T4 те же модели дают 80–110 ток/с генерации (поле `timings` в логах), то есть в 40–50 раз быстрее моего CPU.
+2. **GPU** — на Tesla T4 те же модели дают 80–110 ток/с генерации (поле `timings` в логах), в 40–50 раз быстрее, чем на CPU.
 
 3. **OpenRouter: сравнение с локальной моделью**
 
@@ -50,12 +44,11 @@
 ### 1. Установить llama-cpp
 
 ```bash
-nix-shell   # shell.nix: python3, poetry, llama-cpp, curl, jq, kaggle
 curl -fL -o models/qwen2.5-3b-instruct-q4_k_m.gguf https://huggingface.co/Qwen/Qwen2.5-3B-Instruct-GGUF/resolve/main/qwen2.5-3b-instruct-q4_k_m.gguf
 curl -fL -o models/Llama-3.2-3B-Instruct-Q4_K_M.gguf https://huggingface.co/unsloth/Llama-3.2-3B-Instruct-GGUF/resolve/main/Llama-3.2-3B-Instruct-Q4_K_M.gguf
 ```
 
-Установщик `llama.app/install.sh` на NixOS не подходит (бинарники под обычные дистрибутивы), поэтому llama.cpp из nixpkgs, команды `llama-server` / `llama-bench` вместо `llama serve` / `llama bench`.
+llama.cpp b6981 из пакетного менеджера, команды `llama-server` / `llama-bench` вместо `llama serve` / `llama bench`.
 
 ```bash
 llama-bench -m models/qwen2.5-3b-instruct-q4_k_m.gguf -dev none
@@ -71,7 +64,7 @@ Output:
 | llama 3B Q4_K - Medium | 1.87 GiB | 3.21 B | BLAS    |       4 | none | tg128 |  2.26 ± 0.23 |
 ```
 
-Генерация ~2 ток/с, обработка промпта ~14 ток/с — процессору 2012 года без AVX2 не хватает SIMD. Один вопрос агенту (≈2,5 тыс. токенов промпта) занимал бы 5–8 минут, поэтому пакетные прогоны вынесены на Kaggle.
+Генерация ~2 ток/с, обработка промпта ~14 ток/с (CPU без AVX2). Один вопрос агенту (≈2,5 тыс. токенов промпта) занимал бы 5–8 минут, поэтому пакетные прогоны выполнены на GPU (Tesla T4).
 
 ```bash
 llama-server -m models/qwen2.5-3b-instruct-q4_k_m.gguf -dev none -c 8192
@@ -155,7 +148,7 @@ python hw01.py --prompt v9 --batch    # 10 тестовых вопросов, л
 10. Сколько всего нарушений и какое правило нарушено чаще всего?
 
 ```bash
-kaggle/run.sh qwen:v1 llama:v1
+python hw01.py --prompt v1 --batch   # llama-server с Qwen2.5-3B, затем с Llama-3.2-3B
 ```
 
 Логи: `logs/qwen2.5-3b-instruct-q4_k_m_v1.log`, `logs/Llama-3.2-3B-Instruct-Q4_K_M_v1.log`.
@@ -171,7 +164,8 @@ Llama чаще вызывает не ту функцию (`get_style_guide {"а�
 Модель — Qwen2.5-3B, вопросы из п. 4.1, temperature 0.1. Промпты — `PROMPT_V1`–`PROMPT_V9` в `hw01.py`. v1–v3 — один прогон, v4–v9 — три.
 
 ```bash
-kaggle/run.sh qwen:v2 qwen:v3 qwen:v4:3 qwen:v5:3 qwen:v6:3 qwen:v7:3 qwen:v8:3 qwen:v9:3
+python hw01.py --prompt v2 --batch             # так же v3; v4–v9 — с --runs 3
+python hw01.py --prompt v9 --batch --runs 3
 python score.py logs/qwen*.log
 ```
 
@@ -204,5 +198,4 @@ python score.py logs/qwen*.log
 
 - `hw01.py` — клиент, чат, агент, функции, промпты v1–v9, тестовые вопросы.
 - `score.py` — автоматическая оценка логов.
-- `logs/` — логи прогонов, `report/` — замеры, curl-ответы, вывод чата, полные выводы прогонов.
-- `kaggle/make_kernel.py`, `kaggle/run.sh` — запуск прогонов на Kaggle GPU; `run_all.sh` — то же локально на CPU.
+- `logs/` — логи прогонов.
