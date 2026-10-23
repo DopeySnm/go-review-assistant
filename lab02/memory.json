@@ -1,0 +1,47 @@
+{
+  "artur": {
+    "facts": {
+      "name": "Артур",
+      "go_level": "junior",
+      "go_experience": "более года",
+      "stack": "PostgreSQL, Docker, NixOS",
+      "project": "сервис заказов с REST API",
+      "weak_spots": "управление ошибками в Go",
+      "goal": "писать идиоматичный Go и проходить ревью с первого раза"
+    },
+    "updated_at": "2026-10-23T11:33:54"
+  },
+  "guest": {
+    "facts": {
+      "name": "Мария",
+      "go_level": "senior",
+      "go_experience": "6 лет",
+      "stack": "PostgreSQL, Kafka, Linux",
+      "project": "Платёжный шлюз для интернет-магазинов",
+      "weak_spots": "запись doc-комментарий",
+      "goal": "чтобы вся команда писала в едином стиле"
+    },
+    "updated_at": "2026-10-23T11:34:11"
+  },
+  "dmitry": {
+    "facts": {
+      "name": "Дмитрий",
+      "go_level": "middle",
+      "go_experience": "три года",
+      "stack": "Kafka, Redis, ClickHouse, Kubernetes",
+      "project": "Биллинг",
+      "weak_spots": "context.Context",
+      "goal": "сам ревьюить код команды и не пропускать ошибки"
+    },
+    "updated_at": "2026-10-23T11:34:02"
+  },
+  "olga": {
+    "facts": {
+      "name": "Ольга",
+      "go_level": "junior",
+      "go_experience": "полгода",
+      "stack": "MySQL, gRPC"
+    },
+    "updated_at": "2026-10-23T11:34:08"
+  }
+}
