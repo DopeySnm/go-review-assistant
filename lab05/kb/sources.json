@@ -1,0 +1,28 @@
+{
+  "code_review_comments.md": {
+    "title": "Go Code Review Comments",
+    "url": "https://raw.githubusercontent.com/golang/wiki/master/CodeReviewComments.md",
+    "page": "https://go.dev/wiki/CodeReviewComments",
+    "license": "CC BY 4.0 (текст), BSD (код) — The Go Authors",
+    "fetched": "2026-11-20"
+  },
+  "effective_go.md": {
+    "title": "Effective Go",
+    "url": "https://raw.githubusercontent.com/golang/website/master/_content/doc/effective_go.html",
+    "page": "https://go.dev/doc/effective_go",
+    "license": "CC BY 4.0 (текст), BSD (код) — The Go Authors",
+    "fetched": "2026-11-20"
+  },
+  "uber_style.md": {
+    "title": "Uber Go Style Guide",
+    "url": "https://raw.githubusercontent.com/uber-go/guide/master/style.md",
+    "page": "https://github.com/uber-go/guide/blob/master/style.md",
+    "license": "CC BY 4.0 — Uber Technologies",
+    "fetched": "2026-11-20"
+  },
+  "team_style.md": {
+    "title": "Код-стайл команды",
+    "page": "kb/team_style.md",
+    "license": "свой текст"
+  }
+}
